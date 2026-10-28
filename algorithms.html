@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Algorithms and complexity | Tourist Route Optimizer</title><link rel="stylesheet" href="css/style.css"></head>
+<body><nav class="site"><a class="brand" href="index.html">TripRoute</a><a href="index.html">Home</a><a href="planner.html">Trip planner</a><a href="algorithms.html" aria-current="page">Algorithms</a><a href="tests.html">Test cases</a><a href="report.html">Report summary</a></nav>
+<header class=""><h1>Algorithms and complexity</h1><p>The algorithms behind the planner, with their time and space costs.</p></header>
+<main class="page"><div class="card"><h2>Complexity summary</h2><div class="scroll"><table><tr><th>Algorithm</th><th>Role</th><th>Best</th><th>Average</th><th>Worst</th><th>Space</th></tr>
+<tr><td>Greedy selection</td><td>Fast baseline</td><td>O(n log n)</td><td>O(n log n)</td><td>O(n log n)</td><td>O(n)</td></tr>
+<tr><td>0/1 Knapsack DP</td><td>Optimal subset</td><td>O(nC)</td><td>O(nC)</td><td>O(nC)</td><td>O(nC), O(C) optimised</td></tr>
+<tr><td>Dijkstra (heap)</td><td>Shortest routes</td><td>O((V+E) log V)</td><td>O((V+E) log V)</td><td>O((V+E) log V)</td><td>O(V+E)</td></tr>
+<tr><td>Merge Sort</td><td>Sort attractions</td><td>Θ(n log n)</td><td>Θ(n log n)</td><td>Θ(n log n)</td><td>Θ(n)</td></tr>
+<tr><td>Binary Search</td><td>Lookup in sorted list</td><td>Θ(1)</td><td>Θ(log n)</td><td>Θ(log n)</td><td>O(1)</td></tr>
+<tr><td>Brute force</td><td>Exact check, small n</td><td colspan="2">Exponential</td><td>Θ(n · 2ⁿ)</td><td>O(n)</td></tr>
+<tr><td>Backtracking / Branch and Bound</td><td>Exact search with pruning</td><td>Fast with strong pruning</td><td>Instance-dependent</td><td>Exponential</td><td>Depends on depth</td></tr></table></div></div>
+<div class="cols"><div class="card"><h2>0/1 Knapsack DP</h2><pre>DP[i][c] = DP[i-1][c]            if w_i &gt; c
+DP[i][c] = max(DP[i-1][c],
+               v_i + DP[i-1][c-w_i])  if w_i ≤ c
+
+for i = 1..n:
+  for c = 0..C:
+    dp[i][c] = dp[i-1][c]
+    if w[i] &lt;= c:
+      dp[i][c] = max(dp[i][c],
+                     v[i] + dp[i-1][c-w[i]])
+backtrack from dp[n][C] to list items</pre><p>This site extends the table to two limits, time and budget: <code>dp[i][t][b]</code>, costing O(n·T·B).</p></div>
+<div class="card"><h2>Dijkstra</h2><pre>dist[all] = ∞;  dist[s] = 0
+pq = [(0, s)]
+while pq not empty:
+  (d, u) = extract_min(pq)
+  if d != dist[u]: continue
+  for each edge (u, v, w):
+    if dist[u] + w &lt; dist[v]:
+      dist[v] = dist[u] + w
+      parent[v] = u
+      push (dist[v], v)</pre><p>Valid only for non-negative edge weights. Unreachable nodes keep distance ∞.</p></div>
+<div class="card"><h2>Greedy ranking</h2><pre>sort attractions by value / duration (desc)
+used = 0
+for each attraction a:
+  if used + a.d ≤ capacity
+     and cost + a.c ≤ budget:
+    choose a</pre><p>Quick, but the best ratio first can block a better combination, so it is not guaranteed optimal for 0/1 choices.</p></div></div>
+<div class="card"><h2>P, NP, NP-Hard and NP-Complete</h2><div class="scroll"><table><tr><th>Class</th><th>Meaning</th><th>Project connection</th></tr>
+<tr><td>P</td><td>Solvable in polynomial time</td><td>Sorting, BFS, DFS, Dijkstra, Floyd–Warshall, MST</td></tr>
+<tr><td>NP</td><td>A YES answer can be verified in polynomial time</td><td>Checking a proposed itinerary against budget, time and route limits</td></tr>
+<tr><td>NP-Hard</td><td>At least as hard as every NP problem</td><td>General exact selection and route optimisation</td></tr>
+<tr><td>NP-Complete</td><td>In NP and NP-Hard</td><td>Decision versions of Knapsack and TSP variants</td></tr></table></div>
+<p><b>Reduction:</b> Knapsack ≤p Simplified Attraction Selection. Make one attraction per Knapsack item with value v<sub>i</sub> and duration w<sub>i</sub>, set all travel costs to zero, remove time windows, and set capacity C. The answer is YES exactly when the Knapsack instance is YES, so the simplified problem is NP-Hard, and NP-Complete as a decision problem.</p>
+<p>Knapsack DP is pseudo-polynomial: its running time depends on the numeric size of the capacity, not just the number of bits needed to write it.</p></div></main>
+<footer>Design and Analysis of Algorithms mini project · KIT – Kalaignarkarunanidhi Institute of Technology · BE Computer Science and Engineering. Attraction data is sample data for demonstration.</footer>
+</body></html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Trip planner | Tourist Route Optimizer</title><link rel="stylesheet" href="css/style.css"></head>
+<body><nav class="site"><a class="brand" href="index.html">TripRoute</a><a href="index.html">Home</a><a href="planner.html" aria-current="page">Trip planner</a><a href="algorithms.html">Algorithms</a><a href="tests.html">Test cases</a><a href="report.html">Report summary</a></nav>
+<header class=""><h1>Trip planner</h1><p>Adjust time, budget and algorithm. The itinerary, map and comparison table update instantly.</p></header>
+<main class="page">
+<div class="grid">
+  <div>
+    <div class="card">
+      <h2>Trip settings</h2>
+      <label for="pre">Ready-made scenario</label>
+      <select id="pre"><option value="">Choose a scenario…</option><option value="half">Half day on a small budget (5 h, ₹300)</option>
+      <option value="family">Family day trip (8 h, ₹1500)</option><option value="full">Full-day explorer (12 h, ₹3000)</option>
+      <option value="greedy">Short trip, greedy method (4 h, ₹500)</option></select>
+      <label for="hrs">Available time: <span id="hv"></span> hours</label>
+      <input type="range" id="hrs" min="2" max="12" step="0.5" value="8">
+      <label for="bud">Budget: ₹<span id="bv"></span></label>
+      <input type="range" id="bud" min="0" max="3000" step="100" value="1200">
+      <label for="met">Selection algorithm</label>
+      <select id="met">
+        <option value="knap2">0/1 Knapsack DP (time and budget)</option>
+        <option value="knap1">0/1 Knapsack DP (time only)</option>
+        <option value="greedy">Greedy (value per hour)</option>
+        <option value="brute">Brute force (exact, small n)</option>
+      </select>
+    </div>
+    <div class="card">
+      <h2>Attractions</h2>
+      <div id="list"></div>
+      <p class="note">Sample data. Edit the <code>ATTR</code> and <code>EDGES</code> arrays in the script to use your own.</p>
+    </div>
+  </div>
+  <div>
+    <div class="card"><h2>Your itinerary</h2><div id="sum"></div><ol class="it" id="itin"></ol></div>
+    <div class="card"><h2>Route map</h2><div id="map"></div><p class="note">Edge labels are travel minutes. Blue edges are the shortest paths found by Dijkstra’s algorithm; a dashed red location has no road connection.</p></div>
+    <div class="card"><h2>Compare algorithms on the same input</h2><div class="scroll" id="cmp"></div></div>
+  </div>
+</div>
+</main>
+<footer>Design and Analysis of Algorithms mini project · KIT – Kalaignarkarunanidhi Institute of Technology · BE Computer Science and Engineering. Attraction data is sample data for demonstration.</footer>
+<script src="js/data.js"></script><script src="js/algorithms.js"></script><script src="js/common.js"></script><script src="js/planner.js"></script></body></html>
